@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — Take My Stuff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="login-page">
+  <div class="login-box">
+    <h1 class="wordmark">Take My Stuff</h1>
+    <p class="login-sub">Admin access</p>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash error">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('admin_login') }}">
+      <input type="password" name="password" placeholder="Password" autofocus required />
+      <button type="submit">Sign in</button>
+    </form>
+  </div>
+</body>
+</html>

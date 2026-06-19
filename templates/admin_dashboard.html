@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Take My Stuff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="admin-page">
+
+  <header class="admin-header">
+    <span class="wordmark">Take My Stuff — Admin</span>
+    <div class="admin-header-actions">
+      <a href="{{ url_for('index') }}" class="btn-ghost">View public site →</a>
+      <a href="{{ url_for('admin_logout') }}" class="btn-ghost">Sign out</a>
+    </div>
+  </header>
+
+  <main class="admin-main">
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash success">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Upload new item -->
+    <section class="admin-section upload-section">
+      <h2 class="section-title">Post a new item</h2>
+      <form method="POST" action="{{ url_for('admin_upload') }}" enctype="multipart/form-data" class="upload-form">
+        <div class="form-row">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" placeholder="e.g. Blue linen shirt, size M" required maxlength="120" />
+        </div>
+        <div class="form-row">
+          <label for="note">Note <span class="optional">(optional)</span></label>
+          <input type="text" id="note" name="note" placeholder="e.g. Needs a new button, otherwise perfect" maxlength="300" />
+        </div>
+        <div class="form-row">
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            {% for cat in categories %}
+              <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="photo">Photo</label>
+          <input type="file" id="photo" name="photo" accept="image/*" required />
+        </div>
+        <button type="submit" class="btn-primary">Post item</button>
+      </form>
+    </section>
+
+    <!-- Claimed items -->
+    {% if claimed %}
+    <section class="admin-section">
+      <h2 class="section-title">Claimed <span class="count-badge">{{ claimed|length }}</span></h2>
+      <div class="admin-item-list">
+        {% for item in claimed %}
+        <div class="admin-item-row">
+          <img src="{{ item.photo_url }}" alt="{{ item.title }}" class="admin-thumb" />
+          <div class="admin-item-info">
+            <strong>{{ item.title }}</strong>
+            <span class="cat-label">{{ item.category }}</span>
+            <span class="claimer">Claimed by <em>{{ item.claimed_by }}</em></span>
+          </div>
+          <div class="admin-item-actions">
+            <form method="POST" action="{{ url_for('mark_gone', item_id=item.id) }}">
+              <button type="submit" class="btn-primary btn-sm">Mark as gone</button>
+            </form>
+            <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" onsubmit="return confirm('Delete this item permanently?')">
+              <button type="submit" class="btn-danger btn-sm">Delete</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Available items -->
+    <section class="admin-section">
+      <h2 class="section-title">Available <span class="count-badge">{{ available|length }}</span></h2>
+      {% if available %}
+      <div class="admin-item-list">
+        {% for item in available %}
+        <div class="admin-item-row">
+          <img src="{{ item.photo_url }}" alt="{{ item.title }}" class="admin-thumb" />
+          <div class="admin-item-info">
+            <strong>{{ item.title }}</strong>
+            <span class="cat-label">{{ item.category }}</span>
+            {% if item.note %}<span class="item-note">{{ item.note }}</span>{% endif %}
+          </div>
+          <div class="admin-item-actions">
+            <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" onsubmit="return confirm('Delete this item permanently?')">
+              <button type="submit" class="btn-danger btn-sm">Delete</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+        <p class="empty-label">No items posted yet.</p>
+      {% endif %}
+    </section>
+
+    <!-- Gone items -->
+    {% if gone %}
+    <section class="admin-section gone-section">
+      <h2 class="section-title">Gone <span class="count-badge muted">{{ gone|length }}</span></h2>
+      <div class="admin-item-list faded">
+        {% for item in gone %}
+        <div class="admin-item-row">
+          <img src="{{ item.photo_url }}" alt="{{ item.title }}" class="admin-thumb gone-thumb" />
+          <div class="admin-item-info">
+            <strong class="muted">{{ item.title }}</strong>
+            <span class="cat-label">{{ item.category }}</span>
+            {% if item.claimed_by %}<span class="claimer muted">Went to {{ item.claimed_by }}</span>{% endif %}
+          </div>
+          <div class="admin-item-actions">
+            <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" onsubmit="return confirm('Delete this item permanently?')">
+              <button type="submit" class="btn-danger btn-sm">Delete</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+  </main>
+</body>
+</html>

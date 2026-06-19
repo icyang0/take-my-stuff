@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Take My Stuff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="wordmark">Take My Stuff</h1>
+      <p class="tagline">See something you like? Put your name on it.</p>
+    </div>
+  </header>
+
+  <nav class="category-bar">
+    <a href="{{ url_for('index') }}" class="cat-pill {% if not active_category %}active{% endif %}">All</a>
+    {% for cat in categories %}
+      <a href="{{ url_for('index', category=cat) }}" class="cat-pill {% if active_category == cat %}active{% endif %}">{{ cat }}</a>
+    {% endfor %}
+  </nav>
+
+  <main class="card-grid">
+    {% if items %}
+      {% for item in items %}
+      <article class="item-card {% if item.status == 'claimed' %}is-claimed{% endif %}" data-id="{{ item.id }}">
+        <div class="card-photo-wrap">
+          <img src="{{ item.photo_url }}" alt="{{ item.title }}" class="card-photo" loading="lazy" />
+          {% if item.status == 'claimed' %}
+            <div class="claimed-badge">Claimed</div>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <span class="card-category">{{ item.category }}</span>
+          <h2 class="card-title">{{ item.title }}</h2>
+          {% if item.note %}
+            <p class="card-note">{{ item.note }}</p>
+          {% endif %}
+
+          {% if item.status == 'available' %}
+            <form class="claim-form" data-id="{{ item.id }}">
+              <input
+                type="text"
+                name="name"
+                placeholder="Your name"
+                maxlength="80"
+                required
+                autocomplete="off"
+              />
+              <button type="submit">I want this</button>
+            </form>
+            <p class="form-feedback" id="feedback-{{ item.id }}"></p>
+          {% else %}
+            <p class="claimed-label">Claimed by {{ item.claimed_by }}</p>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <p>Nothing available in this category right now. Check back soon!</p>
+      </div>
+    {% endif %}
+  </main>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
