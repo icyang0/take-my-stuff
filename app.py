@@ -33,6 +33,7 @@ class Item(db.Model):
     note = db.Column(db.String(300), nullable=True)
     category = db.Column(db.String(60), nullable=False)
     photo_url = db.Column(db.String(500), nullable=False)
+    posted_by = db.Column(db.String(80), nullable=True)
     status = db.Column(db.String(20), default="available")  # available | claimed | gone
     claimed_by = db.Column(db.String(120), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -44,6 +45,7 @@ class Item(db.Model):
             "note": self.note,
             "category": self.category,
             "photo_url": self.photo_url,
+            "posted_by": self.posted_by,
             "status": self.status,
             "claimed_by": self.claimed_by,
         }
@@ -123,6 +125,7 @@ def admin_upload():
     title = request.form.get("title", "").strip()
     note = request.form.get("note", "").strip()
     category = request.form.get("category", "")
+    posted_by = request.form.get("posted_by", "").strip()
     photo = request.files.get("photo")
 
     if not title or not category or not photo:
@@ -140,7 +143,7 @@ def admin_upload():
         flash(f"Photo upload failed: {e}")
         return redirect(url_for("admin_dashboard"))
 
-    item = Item(title=title, note=note, category=category, photo_url=photo_url)
+    item = Item(title=title, note=note, category=category, photo_url=photo_url, posted_by=posted_by)
     db.session.add(item)
     db.session.commit()
     flash(f'"{title}" posted successfully.')

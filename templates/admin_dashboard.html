@@ -39,6 +39,10 @@
           <input type="text" id="note" name="note" placeholder="e.g. Needs a new button, otherwise perfect" maxlength="300" />
         </div>
         <div class="form-row">
+          <label for="posted_by">Posted by</label>
+          <input type="text" id="posted_by" name="posted_by" placeholder="Your name" maxlength="80" />
+        </div>
+        <div class="form-row">
           <label for="category">Category</label>
           <select id="category" name="category" required>
             <option value="" disabled selected>Select a category</option>
@@ -66,6 +70,7 @@
           <div class="admin-item-info">
             <strong>{{ item.title }}</strong>
             <span class="cat-label">{{ item.category }}</span>
+            {% if item.posted_by %}<span class="posted-by">Posted by {{ item.posted_by }}</span>{% endif %}
             <span class="claimer">Claimed by <em>{{ item.claimed_by }}</em></span>
           </div>
           <div class="admin-item-actions">
@@ -93,6 +98,7 @@
           <div class="admin-item-info">
             <strong>{{ item.title }}</strong>
             <span class="cat-label">{{ item.category }}</span>
+            {% if item.posted_by %}<span class="posted-by">Posted by {{ item.posted_by }}</span>{% endif %}
             {% if item.note %}<span class="item-note">{{ item.note }}</span>{% endif %}
           </div>
           <div class="admin-item-actions">

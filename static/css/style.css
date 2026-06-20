@@ -366,6 +366,7 @@ button, input, select { font-family: inherit; }
 }
 .claimer { font-size: 0.85rem; color: var(--ink-soft); }
 .item-note { font-size: 0.82rem; color: var(--ink-soft); font-style: italic; }
+.posted-by { font-size: 0.8rem; color: var(--moss); font-weight: 500; }
 .admin-item-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
 .empty-label { font-size: 0.9rem; color: var(--ink-soft); font-style: italic; }
 .muted { color: var(--ink-soft) !important; }
