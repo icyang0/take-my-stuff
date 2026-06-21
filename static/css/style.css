@@ -43,6 +43,12 @@ button, input, select { font-family: inherit; }
   letter-spacing: -0.02em;
   color: var(--paper);
 }
+.wordmark-img {
+  max-width: 280px;
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+}
 .tagline {
   margin-top: 8px;
   font-size: 1rem;
@@ -167,6 +173,11 @@ button, input, select { font-family: inherit; }
   font-size: 0.88rem;
   color: var(--ink-soft);
   line-height: 1.5;
+}
+.card-posted-by {
+  font-size: 0.78rem;
+  color: var(--moss);
+  font-weight: 500;
 }
 
 /* ── Claim form ───────────────────────────────────────── */
@@ -364,9 +375,9 @@ button, input, select { font-family: inherit; }
   letter-spacing: 0.08em;
   color: var(--moss);
 }
+.posted-by { font-size: 0.8rem; color: var(--moss); font-weight: 500; }
 .claimer { font-size: 0.85rem; color: var(--ink-soft); }
 .item-note { font-size: 0.82rem; color: var(--ink-soft); font-style: italic; }
-.posted-by { font-size: 0.8rem; color: var(--moss); font-weight: 500; }
 .admin-item-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
 .empty-label { font-size: 0.9rem; color: var(--ink-soft); font-style: italic; }
 .muted { color: var(--ink-soft) !important; }

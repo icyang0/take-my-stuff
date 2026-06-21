@@ -30,12 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
 
         if (res.ok && data.success) {
-          // Swap the form out for a success state
           form.innerHTML = "";
-          feedback.textContent = `✓ Claimed! Irene will be in touch, ${name}.`;
+          feedback.textContent = `✓ Claimed! The owner will be in touch, ${name}.`;
           feedback.className = "form-feedback ok";
 
-          // Mark card as claimed visually
           const card = form.closest(".item-card");
           if (card) {
             card.classList.add("is-claimed");

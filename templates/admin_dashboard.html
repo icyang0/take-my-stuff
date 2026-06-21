@@ -125,6 +125,7 @@
           <div class="admin-item-info">
             <strong class="muted">{{ item.title }}</strong>
             <span class="cat-label">{{ item.category }}</span>
+            {% if item.posted_by %}<span class="posted-by muted">Posted by {{ item.posted_by }}</span>{% endif %}
             {% if item.claimed_by %}<span class="claimer muted">Went to {{ item.claimed_by }}</span>{% endif %}
           </div>
           <div class="admin-item-actions">

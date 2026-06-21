@@ -137,7 +137,7 @@ def admin_upload():
         return redirect(url_for("admin_dashboard"))
 
     try:
-        result = cloudinary.uploader.upload(photo, folder="free-stuff-board")
+        result = cloudinary.uploader.upload(photo, folder="take-my-stuff")
         photo_url = result["secure_url"]
     except Exception as e:
         flash(f"Photo upload failed: {e}")
