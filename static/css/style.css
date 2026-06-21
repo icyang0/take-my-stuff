@@ -44,7 +44,7 @@ button, input, select { font-family: inherit; }
   color: var(--paper);
 }
 .wordmark-img {
-  max-width: 280px;
+  max-width: 550px;
   width: 60%;
   height: auto;
   margin: 0 auto;
